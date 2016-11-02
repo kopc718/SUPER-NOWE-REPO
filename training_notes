@@ -3,16 +3,16 @@ import csv
 
 class Tools(object):
 
-    def __init__(self, data_file_name = "big6.csv"):
+    def __init__(self, data_file_name="big6.csv"):
         self._data_file_name = data_file_name
 
     def new_note(self):
         note_name = str(input("Date in format dd/mm/yyyy: "))
 
-        with open(self._data_file_name, "a+", newline = "") as f:
+        with open(self._data_file_name, "a+", newline="") as f:
             f.seek(self.lines_in_data_file() + 2)
-            csv.writer(f, delimiter = "|").writerow(
-                "{a}| {b}_{c}_{d}_{e}\n".format(a = note_name,
+            csv.writer(f, delimiter="|").writerow(
+                "{a}| {b}_{c}_{d}_{e}\n".format(a=note_name,
                                                 b=input("Which body part: "),
                                                 c=input("What exercise?: "),
                                                 d=int(input("How many series?: ")),
@@ -23,6 +23,7 @@ class Tools(object):
         with open(self._data_file_name, "r") as f:
             return len([1 for _ in f])
 
+    @property
     def notes_into_dict(self):
         data_ceeper = {}
         with open(self._data_file_name, "r") as f:
@@ -33,7 +34,6 @@ class Tools(object):
                     data_ceeper.update({row[0]: row[1]})
                 except IndexError:
                     continue
-        print(data_ceeper)
         return data_ceeper
 
     def search_dict(self, search_in):
@@ -61,7 +61,7 @@ class Tools(object):
             self.run_app()
 
         if x == 2:
-            td = self.notes_into_dict()
+            td = self.notes_into_dict
             self.search_dict(td)
             self.run_app()
         if x == 3:
@@ -70,4 +70,4 @@ class Tools(object):
 if __name__ == "__main__":
     s = Tools()
     s.run_app()
-    print(s.notes_into_dict())
+    print(s.notes_into_dict)
