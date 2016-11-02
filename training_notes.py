@@ -11,13 +11,11 @@ class Tools(object):
 
         with open(self._data_file_name, "a+", newline="") as f:
             f.seek(self.lines_in_data_file() + 2)
-            csv.writer(f, delimiter="|").writerow(
-                    "{a}|{b}{c}{d}{e}\n".format(a=note_name,
-                                                b=input("Which body part: "),
-                                                c=input("What exercise?: "),
-                                                d=int(input("How many series?: ")),
-                                                e=input("How many times per serie, separate by '/'?: "))
-                                                 )
+            csv.writer(f, delimiter="|").writerow([note_name,
+                                                  input("Which body part: "),
+                                                  input("What exercise?: "),
+                                                  int(input("How many series?: ")),
+                                                  input("How many times per serie, separate by '/'?: ")])
 
     def lines_in_data_file(self):
         with open(self._data_file_name, "r") as f:
