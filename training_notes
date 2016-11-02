@@ -1,34 +1,39 @@
+import csv
+
+
 class Tools(object):
 
-    def __init__(self, data_file_name = "wielka6.txt"):
+    def __init__(self, data_file_name = "big6.csv"):
         self._data_file_name = data_file_name
 
     def new_note(self):
-        note_name = str(input("Data in format dd/mm/yyyy: "))
+        note_name = str(input("Date in format dd/mm/yyyy: "))
 
-        with open(self._data_file_name, "a+", encoding = "utf-8") as f:
+        with open(self._data_file_name, "a+", newline = "") as f:
             f.seek(self.lines_in_data_file() + 2)
-            f.writelines("{a}. {b}_{c}_{d}_{e}\n".format(a = note_name,
-                                                         b = input("Which body part: "),
-                                                         c = input("What exercise?: "),
-                                                         d = int(input("How many series?: ")),
-                                                         e = int(input("How many times per serie, separate by '/'?: "))
-                                                         ))
+            csv.writer(f, delimiter = "|").writerow(
+                "{a}| {b}_{c}_{d}_{e}\n".format(a = note_name,
+                                                b=input("Which body part: "),
+                                                c=input("What exercise?: "),
+                                                d=int(input("How many series?: ")),
+                                                e=input("How many times per serie, separate by '/'?: "))
+                                                )
 
     def lines_in_data_file(self):
-        with open(self._data_file_name, "rt", encoding="utf-8") as f:
+        with open(self._data_file_name, "r") as f:
             return len([1 for _ in f])
 
     def notes_into_dict(self):
         data_ceeper = {}
-        with open(self._data_file_name, "rt", encoding="utf-8") as f:
-            f.seek(2)
-            for x in range(1, self.lines_in_data_file() + 1):
+        with open(self._data_file_name, "r") as f:
+            for row in f:
                 try:
-                    key_, partition, value_ = f.readline().partition(".")
-                    data_ceeper.update({key_: value_})
+                    if len(row) == 2:
+                        print(row[0] + "|" + row[1])
+                    data_ceeper.update({row[0]: row[1]})
                 except IndexError:
                     continue
+        print(data_ceeper)
         return data_ceeper
 
     def search_dict(self, search_in):
@@ -65,3 +70,4 @@ class Tools(object):
 if __name__ == "__main__":
     s = Tools()
     s.run_app()
+    print(s.notes_into_dict())
