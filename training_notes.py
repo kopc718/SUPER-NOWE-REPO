@@ -12,12 +12,12 @@ class Tools(object):
         with open(self._data_file_name, "a+", newline="") as f:
             f.seek(self.lines_in_data_file() + 2)
             csv.writer(f, delimiter="|").writerow(
-                "{a}| {b}_{c}_{d}_{e}\n".format(a=note_name,
+                    "{a}|{b}{c}{d}{e}\n".format(a=note_name,
                                                 b=input("Which body part: "),
                                                 c=input("What exercise?: "),
                                                 d=int(input("How many series?: ")),
                                                 e=input("How many times per serie, separate by '/'?: "))
-                                                )
+                                                 )
 
     def lines_in_data_file(self):
         with open(self._data_file_name, "r") as f:
@@ -28,12 +28,7 @@ class Tools(object):
         data_ceeper = {}
         with open(self._data_file_name, "r") as f:
             for row in f:
-                try:
-                    if len(row) == 2:
-                        print(row[0] + "|" + row[1])
-                    data_ceeper.update({row[0]: row[1]})
-                except IndexError:
-                    continue
+                print(row)
         return data_ceeper
 
     def search_dict(self, search_in):
