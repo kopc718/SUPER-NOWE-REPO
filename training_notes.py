@@ -7,7 +7,7 @@ class Tools(object):
         self._data_file_name = data_file_name
 
     def new_note(self):
-        note_name = str(input("Date in format dd/mm/yyyy: "))
+        note_name = str(input("note name: "))
 
         with open(self._data_file_name, "a+", newline="") as f:
             f.seek(self.lines_in_data_file() + 2)
@@ -26,7 +26,11 @@ class Tools(object):
         data_ceeper = {}
         with open(self._data_file_name, "r") as f:
             for row in f:
-                print(row)
+                try:
+                    rs = row.split("|")
+                    data_ceeper.update({rs[0]: [rs[1], rs[2], rs[3], rs[4]]})
+                except IndexError:
+                    continue
         return data_ceeper
 
     def search_dict(self, search_in):
