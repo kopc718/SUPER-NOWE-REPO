@@ -25,10 +25,10 @@ class Tools(object):
     def notes_into_dict(self):
         data_ceeper = {}
         with open(self._data_file_name, "r") as f:
-            for row in f:
+            f_reader = csv.reader(f, delimiter=' ', quotechar='|')
+            for row in f_reader:
                 try:
-                    rs = row.split("|")
-                    data_ceeper.update({rs[0]: [rs[1], rs[2], rs[3], rs[4]]})
+                    data_ceeper.update({row[0]: [row[1], row[2], row[3], row[4]]})
                 except IndexError:
                     continue
         return data_ceeper
