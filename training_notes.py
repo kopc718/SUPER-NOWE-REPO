@@ -7,15 +7,15 @@ class Tools(object):
         self._data_file_name = data_file_name
 
     def new_note(self):
-        note_name = str(input("note name: "))
-
         with open(self._data_file_name, "a+", newline="") as f:
             f.seek(self.lines_in_data_file() + 2)
-            csv.writer(f, delimiter="|").writerow([note_name,
-                                                  input("Which body part: "),
-                                                  input("What exercise?: "),
-                                                  int(input("How many series?: ")),
-                                                  input("How many times per serie, separate by '/'?: ")])
+            csv.writer(f, delimiter=' ', quotechar='|', quoting=csv.QUOTE_MINIMAL).writerow([
+                input("Note name: "),
+                input("Start time: "),
+                input("What exercise(if more than 1 separate by '/'?: "),
+                input("How many series?: "),
+                input("How many times each run, separate by '/'?: ")
+                                                                                            ])
 
     def lines_in_data_file(self):
         with open(self._data_file_name, "r") as f:
@@ -33,14 +33,46 @@ class Tools(object):
                     continue
         return data_ceeper
 
-    def search_dict(self, search_in):
+    def search_dict(self):
+        search_in = self.notes_into_dict
         try:
             print("Notes names list: ")
             print([key for key in search_in.keys()])
-            print(search_in[input("Input note name to read")])
+            note_name = input("Input note name to read")
+            try:
+                exercise_ = [[search_in[note_name][1].split("/")[0],
+                             (search_in[note_name][1].split("/")[1])]]
+            except IndexError:
+                exercise_ = [search_in[note_name][1]]
+            ser_ = [search_in[note_name][2]]
+            rep_ = [search_in[note_name][3]]
+            if type(exercise_) == list:
+                try:
+                    ser_ = [[search_in[note_name][2].split("/")[0],
+                            search_in[note_name][2].split("/")[1]]]
+                    rep_ = [[search_in[note_name][3].split("/")[0],
+                            search_in[note_name][3].split("/")[1]]]
+                except IndexError:
+                    print("Mistake in entered search_in[note_name]! Input note again.")
+            elif type(exercise_) != list:
+                pass
+
+            print("Training note: ", note_name)
+            print("Start time:    ", search_in[note_name][0])
+            print("Exercise:      ", exercise_)
+            print("Series:        ", ser_)
+            print("Repeats:       ", rep_)
+            print("Suammary:\n"
+                  "At this training you did\n")  # tutaj poprawisz to na funkcje while not i zrobisz do 10 seri,
+                                                 #  i wymyslisz jk zrobic zeby mozna bylo wprowadzic dwolna ilosc cwiczen
+            n = 0
+            while IndexError:
+                print(exercise_[n], " ", ser_[n], " x ", rep_[n], "\n")
+                n += 1
+
         except KeyError:
             print("Wrong name")
-            self.search_dict(search_in)
+            self.search_dict()
 
     def exercises_data_counter(self):
         pass
@@ -58,8 +90,7 @@ class Tools(object):
             self.run_app()
 
         if x == 2:
-            td = self.notes_into_dict
-            self.search_dict(td)
+            self.search_dict()
             self.run_app()
         if x == 3:
             print("exit")
