@@ -40,36 +40,34 @@ class Tools(object):
             print([key for key in search_in.keys()])
             note_name = input("Input note name to read")
             try:
-                exercise_ = [[search_in[note_name][1].split("/")[0],
-                             (search_in[note_name][1].split("/")[1])]]
+                exercise_ = ([search_in[note_name][1].split("/")[0],
+                             (search_in[note_name][1].split("/")[1])])
             except IndexError:
-                exercise_ = [search_in[note_name][1]]
-            ser_ = [search_in[note_name][2]]
-            rep_ = [search_in[note_name][3]]
+                exercise_ = search_in[note_name][1]
+            ser_ = search_in[note_name][2]
+            rep_ = search_in[note_name][3]
             if type(exercise_) == list:
                 try:
-                    ser_ = [[search_in[note_name][2].split("/")[0],
-                            search_in[note_name][2].split("/")[1]]]
-                    rep_ = [[search_in[note_name][3].split("/")[0],
-                            search_in[note_name][3].split("/")[1]]]
+                    ser_ = [search_in[note_name][2].split("/")[0],
+                            search_in[note_name][2].split("/")[1]]
+                    rep_ = [search_in[note_name][3].split("/")[0],
+                            search_in[note_name][3].split("/")[1]]
                 except IndexError:
                     print("Mistake in entered search_in[note_name]! Input note again.")
             elif type(exercise_) != list:
-                pass
+                ser_ = search_in[note_name][2]
+                rep_ = search_in[note_name][3]
 
             print("Training note: ", note_name)
             print("Start time:    ", search_in[note_name][0])
             print("Exercise:      ", exercise_)
             print("Series:        ", ser_)
             print("Repeats:       ", rep_)
-            print("Suammary:\n"
-                  "At this training you did\n")  # tutaj poprawisz to na funkcje while not i zrobisz do 10 seri,
-                                                 #  i wymyslisz jk zrobic zeby mozna bylo wprowadzic dwolna ilosc cwiczen
-            n = 0
-            while IndexError:
-                print(exercise_[n], " ", ser_[n], " x ", rep_[n], "\n")
-                n += 1
-
+            print("Suammary:"
+                  "At this training you did\n",
+                  exercise_[0], " ", ser_[0], " x ", rep_[0],
+                  exercise_[1], " ", ser_[], " x ", rep_[0],
+                  exercise_[0], " ", ser_[0], " x ", rep_[0],)
         except KeyError:
             print("Wrong name")
             self.search_dict()
